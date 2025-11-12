@@ -9,19 +9,11 @@ import { useRef, useState } from 'react';
 
 export default function DeleteUserForm({ className = '' }) {
     const [confirmingUserDeletion, setConfirmingUserDeletion] = useState(false);
-    const passwordInput = useRef();
 
     const {
-        data,
-        setData,
         delete: destroy,
         processing,
-        reset,
-        errors,
-        clearErrors,
-    } = useForm({
-        password: '',
-    });
+    } = useForm();
 
     const confirmUserDeletion = () => {
         setConfirmingUserDeletion(true);
@@ -33,16 +25,11 @@ export default function DeleteUserForm({ className = '' }) {
         destroy(route('profile.destroy'), {
             preserveScroll: true,
             onSuccess: () => closeModal(),
-            onError: () => passwordInput.current.focus(),
-            onFinish: () => reset(),
         });
     };
 
     const closeModal = () => {
         setConfirmingUserDeletion(false);
-
-        clearErrors();
-        reset();
     };
 
     return (
@@ -72,37 +59,8 @@ export default function DeleteUserForm({ className = '' }) {
 
                     <p className="mt-1 text-sm text-gray-600">
                         Once your account is deleted, all of its resources and
-                        data will be permanently deleted. Please enter your
-                        password to confirm you would like to permanently delete
-                        your account.
+                        data will be permanently deleted. This action cannot be undone.
                     </p>
-
-                    <div className="mt-6">
-                        <InputLabel
-                            htmlFor="password"
-                            value="Password"
-                            className="sr-only"
-                        />
-
-                        <TextInput
-                            id="password"
-                            type="password"
-                            name="password"
-                            ref={passwordInput}
-                            value={data.password}
-                            onChange={(e) =>
-                                setData('password', e.target.value)
-                            }
-                            className="mt-1 block w-3/4"
-                            isFocused
-                            placeholder="Password"
-                        />
-
-                        <InputError
-                            message={errors.password}
-                            className="mt-2"
-                        />
-                    </div>
 
                     <div className="mt-6 flex justify-end">
                         <SecondaryButton onClick={closeModal}>

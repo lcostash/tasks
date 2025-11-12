@@ -15,6 +15,8 @@ export default function UpdateProfileInformation({
     const { data, setData, patch, errors, processing, recentlySuccessful } =
         useForm({
             name: user.name,
+            full_name: user.full_name || '',
+            phone: user.phone || '',
             email: user.email,
         });
 
@@ -38,7 +40,7 @@ export default function UpdateProfileInformation({
 
             <form onSubmit={submit} className="mt-6 space-y-6">
                 <div>
-                    <InputLabel htmlFor="name" value="Name" />
+                    <InputLabel htmlFor="name" value="Username" />
 
                     <TextInput
                         id="name"
@@ -51,6 +53,35 @@ export default function UpdateProfileInformation({
                     />
 
                     <InputError className="mt-2" message={errors.name} />
+                </div>
+
+                <div>
+                    <InputLabel htmlFor="full_name" value="Full Name" />
+
+                    <TextInput
+                        id="full_name"
+                        className="mt-1 block w-full"
+                        value={data.full_name}
+                        onChange={(e) => setData('full_name', e.target.value)}
+                        autoComplete="name"
+                    />
+
+                    <InputError className="mt-2" message={errors.full_name} />
+                </div>
+
+                <div>
+                    <InputLabel htmlFor="phone" value="Phone Number" />
+
+                    <TextInput
+                        id="phone"
+                        type="tel"
+                        className="mt-1 block w-full"
+                        value={data.phone}
+                        onChange={(e) => setData('phone', e.target.value)}
+                        autoComplete="tel"
+                    />
+
+                    <InputError className="mt-2" message={errors.phone} />
                 </div>
 
                 <div>
